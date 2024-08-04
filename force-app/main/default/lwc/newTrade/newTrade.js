@@ -7,38 +7,36 @@ import { LightningElement, track } from 'lwc';
 import getRate from '@salesforce/apex/NewTradeController.getRate';
 
 export default class NewTrade extends LightningElement {
-    @track sellCurrency = '';
-    @track buyCurrency = '';
-    @track sellAmount = 0;
-    @track buyAmount = 0;
-    @track rate = 0;
-
+    @track sellCurrency;
+    @track buyCurrency;
+    @track rate;
+    @track error;
+    
     currencyOptions = [
         { label: 'USD', value: 'USD' },
         { label: 'EUR', value: 'EUR' },
-        // Add more currency options here
+        { label: 'GBP', value: 'GBP' },
+        // Agrega más opciones según sea necesario
     ];
 
     handleCurrencyChange(event) {
-        if (event.target.name === 'sellCurrency') {
-            this.sellCurrency = event.target.value;
-        } else if (event.target.name === 'buyCurrency') {
-            this.buyCurrency = event.target.value;
+        const field = event.target.name;
+        if (field === 'sellCurrency') {
+            this.sellCurrency = event.detail.value;
+        } else if (field === 'buyCurrency') {
+            this.buyCurrency = event.detail.value;
         }
-    }
-
-    handleAmountChange(event) {
-        this.sellAmount = event.target.value;
     }
 
     handleGetRate() {
         getRate({ sellCurrency: this.sellCurrency, buyCurrency: this.buyCurrency })
             .then(result => {
                 this.rate = result;
-                this.buyAmount = this.sellAmount * this.rate;
+                this.error = undefined;
             })
             .catch(error => {
-                console.error('Error fetching rate:', error);
+                this.error = 'Error fetching rate: ' + error.body.message;
+                this.rate = undefined;
             });
     }
 }

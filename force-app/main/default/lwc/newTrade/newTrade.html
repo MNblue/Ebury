@@ -5,51 +5,31 @@
 </template> -->
 
 <template>
-    <lightning-card title="New Trade" class="slds-var-m-around_medium">
-        <div class="slds-p-around_medium">
-            <lightning-combobox
-                name="sellCurrency"
-                label="Sell Currency"
-                placeholder="Select Sell Currency"
-                options={currencyOptions}
-                value={sellCurrency}
-                onchange={handleCurrencyChange}>
-            </lightning-combobox>
+    <lightning-card class="slds-var-m-top_large">
+        <lightning-combobox 
+            name="sellCurrency"
+            label="Sell Currency"
+            value={sellCurrency}
+            options={currencyOptions}
+            onchange={handleCurrencyChange}>
+        </lightning-combobox>
+        
+        <lightning-combobox 
+            name="buyCurrency"
+            label="Buy Currency"
+            value={buyCurrency}
+            options={currencyOptions}
+            onchange={handleCurrencyChange}>
+        </lightning-combobox>
 
-            <lightning-input
-                name="sellAmount"
-                label="Sell Amount"
-                type="number"
-                value={sellAmount}
-                onchange={handleAmountChange}>
-            </lightning-input>
+        <lightning-button label="Get Rate" onclick={handleGetRate}></lightning-button>
 
-            <lightning-combobox
-                name="buyCurrency"
-                label="Buy Currency"
-                placeholder="Select Buy Currency"
-                options={currencyOptions}
-                value={buyCurrency}
-                onchange={handleCurrencyChange}>
-            </lightning-combobox>
-
-            <lightning-input
-                name="rate"
-                label="Rate"
-                type="number"
-                value={rate}
-                disabled>
-            </lightning-input>
-
-            <lightning-input
-                name="buyAmount"
-                label="Buy Amount"
-                type="number"
-                value={buyAmount}
-                disabled>
-            </lightning-input>
-
-            <lightning-button label="Get Rate" onclick={handleGetRate}></lightning-button>
-        </div>
+        <template if:true={rate}>
+            <p>Rate: {rate}</p>
+        </template>
+        
+        <template if:true={error}>
+            <p class="slds-text-color_error">Error: {error}</p>
+        </template>
     </lightning-card>
 </template>
