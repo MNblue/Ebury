@@ -6,75 +6,67 @@
 
 
 <template>
-    <lightning-card class="slds-var-m-top_large">
-        <!-- Main container for layout -->
-        <div class="slds-grid slds-wrap">
-            <!-- Column for Sell Currency -->
-            <div class="slds-col slds-size_1-of-3">
-                <label class="slds-text-title">Sell Currency</label>
-                <lightning-combobox 
-                    name="sellCurrency"
-                    label="Select Currency"
-                    value={sellCurrency}
-                    options={currencyOptions}
-                    onchange={handleCurrencyChange}>
-                </lightning-combobox>
-            </div>
-
-            <!-- Column for Rate -->
-            <div class="slds-col slds-size_1-of-3 slds-text-align_center">
-                <label class="slds-text-title">Rate</label>
-                <div class="slds-text-heading_medium">
-                    {rate}
-                </div>
-            </div>
-
-            <!-- Column for Buy Currency -->
-            <div class="slds-col slds-size_1-of-3 slds-text-align_right">
-                <label class="slds-text-title">Buy Currency</label>
-                <lightning-combobox 
-                    name="buyCurrency"
-                    label="Select Currency"
-                    value={buyCurrency}
-                    options={currencyOptions}
-                    onchange={handleCurrencyChange}>
-                </lightning-combobox>
-            </div>
+    <lightning-card title="New Trade">
+        <div class="slds-var-p-around_medium">
+            <lightning-layout>
+                <lightning-layout-item size="4">
+                    <label>Sell Currency</label>
+                    <lightning-combobox 
+                        name="sellCurrency" 
+                        value={sellCurrency} 
+                        placeholder="Select Sell Currency"
+                        options={currencyOptions} 
+                        onchange={handleSellCurrencyChange}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item size="4">
+                    <label>Rate</label>
+                    <lightning-input value={rate} disabled></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="4">
+                    <label>Buy Currency</label>
+                    <lightning-combobox 
+                        name="buyCurrency" 
+                        value={buyCurrency} 
+                        placeholder="Select Buy Currency"
+                        options={currencyOptions} 
+                        onchange={handleBuyCurrencyChange}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout>
+                <lightning-layout-item size="6">
+                    <label>Sell Amount</label>
+                    <lightning-input 
+                        value={sellAmount} 
+                        onchange={handleSellAmountChange}>
+                    </lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="6">
+                    <label>Buy Amount</label>
+                    <lightning-input 
+                        value={buyAmount} 
+                        disabled>
+                    </lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout>
+                <lightning-layout-item size="6">
+                    <lightning-button 
+                        label="Create" 
+                        onclick={handleCreate}>
+                    </lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item size="6">
+                    <lightning-button 
+                        label="Cancel" 
+                        onclick={handleCancel}>
+                    </lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+            <template if:true={error}>
+                <div class="slds-text-color_error slds-m-top_small">{error}</div>
+            </template>
         </div>
-
-        <!-- Second row for Sell Amount and Buy Amount -->
-        <div class="slds-grid slds-wrap slds-m-top_medium">
-            <!-- Column for Sell Amount -->
-            <div class="slds-col slds-size_1-of-2">
-                <label class="slds-text-title">Sell Amount</label>
-                <lightning-input 
-                    type="number"
-                    name="sellAmount"
-                    value={sellAmount}
-                    onchange={handleSellAmountChange}>
-                </lightning-input>
-            </div>
-
-            <!-- Column for Buy Amount -->
-            <div class="slds-col slds-size_1-of-2 slds-text-align_right">
-                <label class="slds-text-title">Buy Amount</label>
-                <div class="slds-text-heading_medium">
-                    {buyAmount}
-                </div>
-            </div>
-        </div>
-
-        <!-- Buttons for Create and Cancel -->
-        <div class="slds-m-top_medium">
-            <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}></lightning-button>
-            <lightning-button variant="brand" label="Create" onclick={handleCreate} class="slds-m-left_small"></lightning-button>
-        </div>
-
-        <!-- Error Message -->
-        <template if:true={error}>
-            <div class="slds-text-color_error slds-m-top_medium">
-                {error}
-            </div>
-        </template>
     </lightning-card>
 </template>
